@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt-br" >
+<head>
+  <meta charset="UTF-8">
+  <title>Shoppub - Desafio - Gabriel de Mello e Silva Carneiro</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="styles.scss">
+  <link rel="stylesheet" href="css/animate.css">
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.carousel.min.css'>
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/owl-carousel/1.3.3/owl.theme.min.css'>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css?family=Roboto:200" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/vue"></script>
+</head>
+<body>
+
+<div id="aplication">
+
+  <div class="animated flash infinite " v-if="carregando">
+    Carregando
+  </div>
+
+  <div v-if="!carregando">
+    <div class="main">
+      <nav class="nav">
+        <p id="text1"><a href="#">Você visitou:</a></p>
+        <p id="text2"><a href="#">e talvez se interesse por:</a></p>
+      </nav>
+    </div>
+
+    <div class="carrinho animated fadeInUp fast"  v-if="carrinho.length > 0">
+       <i class="material-icons fa">shopping_cart</i> <div class="qtd">{{carrinho.length}}</div>
+    </div>
+
+    <div>
+      <carousel :per-page-custom="[[0,1], [450,2], [768, 3], [1000, 5]]">
+
+        <slide v-for="produto in lista_de_produtos">
+            <div class="product">
+                <div class="imageName"><img v-bind:src="produto.imageName" /></div>
+
+                <div class="name">
+                  <p>{{produto.name}}</p>
+                </div>
+
+                <div class="oldPrice"><p>{{produto.oldPrice}}</p></div>
+
+                <div class="price"><p><b>Por:</b> {{produto.price}}</p></div>
+
+                <div class="paymentConditions" v-if="produto.productInfo && produto.productInfo.paymentConditions && produto.productInfo.paymentConditions != ''">
+                  <span  :inner-html.prop="produto.productInfo.paymentConditions | valorpor"></span>
+                </div>
+
+                <div class="product-bottom">
+
+                  <div class="product-btn">
+                      <p>
+                          <button @click="adicionarCarrinho(produto)" class="button-hover button">
+                            <span>adicionar ao carrinho</span>
+                            <i class="material-icons fa">add_shopping_cart</i>
+                          </button>
+                      </p>
+                  </div>
+
+                </div>
+
+            </div>
+        </slide>
+      </carousel>
+
+    </div>
+  
+  </div>
+</div>
+
+<script src='https://cdn.jsdelivr.net/npm/vue-carousel@0.17.0/dist/vue-carousel.min.js'></script>
+<script src='https://code.jquery.com/jquery-1.12.4.min.js'></script>
+<script  src="js/index.js"></script>
+</body>
+</html>
